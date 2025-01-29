@@ -79,4 +79,3 @@ Feel free to fork this repository and contribute by submitting pull requests. Al
 
 ---
 
-You can replace the placeholder demo image and other details as needed. Let me know if you need further modifications or additional sections!
