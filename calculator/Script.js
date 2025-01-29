@@ -1,60 +1,96 @@
-let input = document.getElementById('inputBox');
-let buttons = document.querySelectorAll('button');
-let string = "";
+let input = document.getElementById("inputBox");
+let buttons = document.querySelectorAll("button");
+let expression = "";
+let isCalculated = false;
 
-buttons.forEach(button => {
-  button.addEventListener('click', (e) => {
+// Define valid operator pairs
+const allowedPairs = {
+  "*": ["-", "/"],
+  "/": ["-", "/"],
+  "%": ["*", "+", "-", "/"],
+  "+": [],
+  "-": [],
+};
+
+// Check if a character is an operator
+function isOperator(char) {
+  return ["+", "-", "*", "/", "%"].includes(char);
+}
+
+// Validate and handle operator input
+function handleOperatorInput(currentString, newValue) {
+  const lastChar = currentString.slice(-1);
+
+  // Prevent starting with invalid operators, except '-'
+  if (currentString === "" && newValue !== "-") {
+    return currentString;
+  }
+
+  // Replace operator if invalid, else append
+  if (isOperator(lastChar)) {
+    if (!allowedPairs[lastChar]?.includes(newValue)) {
+      return currentString.slice(0, -1) + newValue;
+    }
+  } else {
+    currentString += newValue;
+  }
+
+  // Prevent leading operators like '+', '*', '/', '%'
+  if (/^[+\*/%]/.test(currentString)) {
+    return currentString.slice(0, -1);
+  }
+
+  return currentString;
+}
+
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
     let value = e.target.innerHTML;
 
-    if (value === '=') {
+    if (value === "=") {
+      if (isCalculated) return;
+
       try {
-        // Replace "200%10" with "200 * 10 / 100"
-        string = string.replace(/(\d+)%(\d+)/g, '($1 * $2 / 100)');
-        // Replace "10%" with "10 / 100" when used after an operator
-        string = string.replace(/(\d+)%/g, '($1 / 100)');
-        
+        // Remove trailing operators (except '%')
+        if (/[\+\-\*\/]$/.test(expression)) {
+          expression = expression.slice(0, -1);
+        }
+
+        // Handle percentage calculations
+        expression = expression.replace(/(\d+)%(\d+)/g, "($1 * $2 / 100)");
+        expression = expression.replace(/(\d+)%/g, "($1 / 100)");
+
         // Evaluate the expression
-        string = eval(string);
-        input.value = string;
+        expression = eval(expression).toString();
+        input.value = expression;
+        isCalculated = true;
       } catch {
         input.value = "Error";
-        string = "";
+        expression = "";
+        isCalculated = false;
       }
-    } else if (value === 'AC') {
-      string = "";
+    } else if (value === "AC") {
+      expression = "";
       input.value = "0";
-    } else if (value === 'DEL') {
-      string = string.slice(0, -1);
-      input.value = string || "0";
+      isCalculated = false;
+    } else if (value === "DEL") {
+      expression = expression.slice(0, -1);
+      input.value = expression || "0";
+      isCalculated = false;
     } else {
-      string += value;
-      input.value = string;
+      let newExpression = isCalculated ? value : expression;
+
+      // Handle operators
+      if (isOperator(value)) {
+        newExpression = handleOperatorInput(newExpression, value);
+      } else {
+        newExpression += value;
+      }
+
+      // Update expression
+      expression = newExpression;
+      input.value = expression;
+      isCalculated = false;
     }
   });
 });
-
-
-// let input = document.getElementById('inputBox');
-// let buttons = document.querySelectorAll('button');
-// let string = "";
-// let arr = Array.from(buttons);
-// arr.forEach(button => {
-//   button.addEventListener('click', (e) => {
-//     if(e.target.innerHTML == '='){
-//       string = eval(string);
-//       input.value = string;
-//     }
-//     else if (e.target.innerHTML == 'AC'){
-//       string = "";
-//       input.value = string;
-//     }
-//     else if(e.target.innerHTML == 'DEL') {
-//       string = string.substring(0, string.length-1);
-//       input.value = string;
-//     }
-//     else{
-//       string += e.target.innerHTML;
-//       input.value = string;
-//     }
-//   })
-// })
