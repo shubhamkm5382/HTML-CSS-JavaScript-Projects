@@ -1,0 +1,94 @@
+body {
+  background-color: #f0f0f0; /* Light gray background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.clock-face {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%; /* Make it a circle */
+  background-color: white;
+  border: 5px solid black;
+  position: relative; /* For positioning numbers */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  margin-bottom: 20px;
+}
+
+.center-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Ensure it's on top */
+}
+
+.number {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px; /* Adjust as needed */
+  font-weight: bold;
+  color: black;
+}
+
+.number span {
+  /* Needed to prevent the numbers from rotating with the transform */
+  transform: rotate(calc(-1 * var(--rotation))); 
+  transform: rotate(360deg) translatex(130px) rotate(90deg);
+}
+
+.hand {
+  position: absolute;
+  background-color: black;
+  top: 50%;
+  transform-origin: 100%;
+  transform: rotate(90deg);
+}
+
+.hour-hand {
+  width: 35%;
+  left: 15%;
+  height: 6px;
+  background-color: black;
+}
+
+.minute-hand {
+  width: 40%;
+  left: 10%;
+  height: 4px;
+  background-color: gray;
+}
+
+.second-hand {
+  width: 42%;
+  left: 8%;
+  height: 2px;
+  background-color: red;
+}
+
+.digital-clock {
+  font-size: 24px;
+  color: black;
+  text-align: center;
+}
+
+.digital-clock span {
+  display: block;
+}
+
+.digital-clock .time {
+  font-size: 48px;
+}
