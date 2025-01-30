@@ -12,7 +12,7 @@ A real-time Analog and Digital Clock displaying current time and date with a sty
 
 ## Demo
 
-![Clock Preview](screenshot.png) <!-- Replace with an actual screenshot of your clock -->
+![Clock Preview](./assets/screenshot.png) <!-- Replace with an actual screenshot of your clock -->
 
 ## Technologies Used
 
