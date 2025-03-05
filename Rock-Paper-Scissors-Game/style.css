@@ -42,18 +42,16 @@ main{
     align-items: center;
 }
 
-.player-choice-text
+.player-choice-text,
 .cpu-choice-text {
     font-size: 80px;
 }
 
 .player-choice-text {
-    border: solid;
     transform: rotate(90deg) rotateY(180deg);
 }
 
 .cpu-choice-text {
-    border: solid;
     transform: rotate(-90deg);
 }
 
